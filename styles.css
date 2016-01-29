@@ -1,0 +1,219 @@
+.path-mod-assessment .pagination {
+  display: inline-block;
+  padding-left: 0;
+  margin: 20px 0;
+  border-radius: 0px;
+}
+.path-mod-assessment .pagination > li {
+  display: inline;
+}
+.path-mod-assessment .pagination > li a {
+  position: relative;
+  float: left;
+  padding: 6px 12px;
+  line-height: 1.53846154;
+  text-decoration: none;
+  color: #333333;
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  margin-left: -1px;
+}
+.path-mod-assessment .pagination > li:first-child > a,
+.path-mod-assessment .pagination > li:first-child > span {
+  margin-left: 0;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+}
+.path-mod-assessment .pagination .active > a,
+.path-mod-assessment .pagination .active > span,
+.path-mod-assessment .pagination .active > a:hover,
+.path-mod-assessment .pagination .active > span:hover,
+.path-mod-assessment .pagination .active > a:focus,
+.path-mod-assessment .pagination .active > span:focus {
+  z-index: 2;
+  color: #ffffff;
+  background-color: #337ab7;
+  border-color: #337ab7;
+  cursor: default;
+}
+.path-mod-assessment .pagination > li > a:hover,
+.path-mod-assessment .pagination > li > span:hover,
+.path-mod-assessment .pagination > li > a:focus,
+.path-mod-assessment .pagination > li > span:focus {
+  color: #000000;
+  background-color: #eeeeee;
+  border-color: #dddddd;
+}
+.path-mod-assessment .userrow {
+  border-bottom: 1px solid #eee;
+}
+.path-mod-assessment .userrow .float-left {
+  float: left;
+}
+.path-mod-assessment .userrow .float-right {
+  float: right;
+}
+.path-mod-assessment .userrow .userimage {
+  height: 25px;
+  width: 25px;
+  background-size: cover;
+  background-position: center center;
+}
+.path-mod-assessment .userrow .linktouser {
+  color: #006790;
+  text-decoration: underline;
+}
+.path-mod-assessment .userrow .linktouser:hover {
+  cursor: pointer;
+}
+.path-mod-assessment .userrow .usercell {
+  padding: 3px 7px;
+  float: left;
+}
+.path-mod-assessment .userrow .username {
+  width: 150px;
+}
+.path-mod-assessment .userrow .awardheader {
+  width: 33%;
+  float: left;
+  text-align: center;
+}
+.path-mod-assessment .userrow .awards {
+  width: 180px;
+  float: left;
+}
+.path-mod-assessment .userrow .awards.awards3 {
+  width: 180px;
+}
+.path-mod-assessment .userrow .awards.awards4 {
+  width: 240px;
+}
+.path-mod-assessment .userrow .awards.awards5 {
+  width: 240px;
+}
+.path-mod-assessment .userrow .award {
+  background-size: cover;
+  height: 50px;
+  width: 50px;
+  float: left;
+  display: block;
+  margin: 0 5px;
+  cursor: pointer;
+}
+.path-mod-assessment .userrow .awardimage {
+  width: 50px;
+  height: auto;
+  filter: gray;
+  /* IE6-9 */
+  filter: grayscale(1);
+  /* Microsoft Edge and Firefox 35+ */
+  -webkit-filter: grayscale(1);
+  /* Google Chrome, Safari 6+ & Opera 15+ */
+}
+.path-mod-assessment .userrow .awardimage:hover {
+  filter: none;
+  -webkit-filter: grayscale(0);
+}
+.path-mod-assessment .userrow .teacherimage {
+  margin-left: 5px;
+  padding-right: 5px;
+}
+.path-mod-assessment .userrow .active .awardimage {
+  filter: none;
+  -webkit-filter: grayscale(0);
+}
+.path-mod-assessment .userrow .feedbackcontent {
+  width: 25%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.path-mod-assessment .userrow .feedbackheading {
+  width: 25%;
+}
+.path-mod-assessment .singleuser .award {
+  background-image: url('/cambridge/images/award.png');
+  background-size: cover;
+  height: 75px;
+  width: 75px;
+  float: left;
+  display: block;
+  margin: 0 5px;
+}
+.path-mod-assessment .singleuser .userimage {
+  height: 75px;
+  width: 75px;
+  background-size: cover;
+  background-position: center center;
+}
+.path-mod-assessment .singleuser .feedbackheader {
+  margin-left: 43px;
+}
+.path-mod-assessment .assessmentdescription {
+  margin-bottom: 20px;
+}
+.path-mod-assessment .topactions {
+  margin-bottom: 20px;
+}
+.path-mod-assessment .feedbackrow {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.path-mod-assessment .feedbackrow .userpicture {
+  width: 30px;
+  height: 30px;
+}
+.path-mod-assessment .feedbackrow .listview {
+  position: relative;
+}
+.path-mod-assessment .feedbackrow .listview .lv-item {
+  padding: 10px 0 10px 43px;
+  max-width: 650px;
+}
+.path-mod-assessment .feedbackrow .listview .lv-title {
+  overflow: hidden;
+  margin-right: 20px;
+  display: block;
+}
+.path-mod-assessment .feedbackrow .listview .lv-item .lv-small {
+  font-size: 12px;
+  color: #A9A9A9;
+  width: 100%;
+  margin-left: 3px;
+}
+.path-mod-assessment .feedbackrow .p-relative {
+  margin-left: 5px;
+  padding-right: 5px;
+}
+.path-mod-assessment .feedbackrow .commentinputbox .commentbody {
+  padding-right: 10px;
+  margin-bottom: 25px;
+}
+.path-mod-assessment .feedbackrow .commentinput {
+  border: 1px solid #ddd;
+  padding: 6px 10px 5px 10px;
+  min-height: 120px;
+  line-height: 16px;
+  overflow: auto;
+  resize: vertical;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.05);
+  color: #333;
+  white-space: pre-wrap;
+}
+.path-mod-assessment .feedbackrow #commentactions {
+  margin-top: 5px;
+}
+.path-mod-assessment .feedbackrow .lv-item {
+  border-bottom: 1px solid #f0f0f0;
+  position: relative;
+}
+.path-mod-assessment .feedbackrow .mooccommentdelete {
+  position: absolute;
+  right: 3px;
+  top: 3px;
+}
+.path-mod-assessment .feedbackrow .no-overflow {
+  margin-bottom: 0px;
+}
