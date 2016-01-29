@@ -78,6 +78,12 @@
   float: left;
   text-align: center;
 }
+.path-mod-assessment .userrow .awards4 .awardheader {
+  width: 25%;
+}
+.path-mod-assessment .userrow .awards5 .awardheader {
+  width: 20%;
+}
 .path-mod-assessment .userrow .awards {
   width: 180px;
   float: left;
