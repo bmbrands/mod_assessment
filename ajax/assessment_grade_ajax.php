@@ -71,6 +71,14 @@ $result = array();
 
 if ($storedgrade = $DB->get_record('assessment_grades',
     array('course' => $course->id, 'assessment' => $assessmentid, 'userid' => $userid))) {
+    if ($storedgrade->grade == $award->awardgrade) {
+        if ($DB->delete_records('assessment_grades',
+            array('course' => $course->id, 'assessment' => $assessmentid, 'userid' => $userid))) {
+            $result = array('stat' => 'unset');
+            echo json_encode($result);
+            die();
+        }
+    }
     $storedgrade->grade = $award->awardgrade;
     $storedgrade->timemodified = time();
     if ($DB->update_record('assessment_grades', $storedgrade)) {

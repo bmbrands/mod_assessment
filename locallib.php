@@ -222,6 +222,8 @@ class assessment {
             } else {
                 $fb->sender = $senders[$fb->senderid];
             }
+            $fb->feedback = file_rewrite_pluginfile_urls($fb->feedback,
+                'pluginfile.php', $this->context->id, 'mod_assessment', 'feedback', $fb->id);
             $userfeedback[$fb->userid] = $fb;
         }
         $this->feedback = $userfeedback;
@@ -276,8 +278,10 @@ class assessment {
     }
 
     public function set_form($feedbackform, $page) {
+        global $DB;
         $this->feedbackform = $feedbackform;
-
+        $definitionoptions = array('trusttext' => true, 'subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 99,
+        'context' => $this->context);        
         if ($feedbackform->is_cancelled()) {
             $redirecturl = new moodle_url('/mod/assessment/view.php', array('id' => $this->cm->id, 'page' => $page));
             redirect($redirecturl);
@@ -286,7 +290,14 @@ class assessment {
         if ($formdata = $feedbackform->get_data()) {
             // Process data.
             $this->save_feedback($formdata);
-        }
+        } 
+
+        $entry = $DB->get_record('assessment_feedback', array('assessment' => $this->assessment->id,
+            'userid' => $this->singleuser->id));
+        $entry = file_prepare_standard_editor($entry, 'feedback', $definitionoptions, $this->context,
+            'mod_assessment', 'feedback', $entry->id);
+        $feedbackform->set_data($entry);
+        
     }
 
     public function save_feedback($formdata) {

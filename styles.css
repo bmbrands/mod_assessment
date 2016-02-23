@@ -45,6 +45,7 @@
   border-color: #dddddd;
 }
 .path-mod-assessment .userrow {
+  position: relative;
   border-bottom: 1px solid #eee;
 }
 .path-mod-assessment .userrow .float-left {
@@ -85,26 +86,53 @@
   width: 20%;
 }
 .path-mod-assessment .userrow .awards {
-  width: 180px;
+  width: 360px;
   float: left;
 }
+@media (max-width: 967px) {
+  .path-mod-assessment .userrow .awards {
+    width: 100% !important;
+    text-align: center;
+    padding: 20px 0;
+  }
+  .path-mod-assessment .userrow .awards.awards3 .award {
+    width: 33%;
+    margin: 0;
+  }
+  .path-mod-assessment .userrow .awards.awards4 .award {
+    width: 25%;
+    margin: 0;
+  }
+  .path-mod-assessment .userrow .awards.awards5 .award {
+    width: 20%;
+    margin: 0;
+  }
+}
 .path-mod-assessment .userrow .awards.awards3 {
-  width: 180px;
+  width: 360px;
 }
 .path-mod-assessment .userrow .awards.awards4 {
-  width: 240px;
+  width: 480px;
 }
 .path-mod-assessment .userrow .awards.awards5 {
-  width: 240px;
+  width: 600px;
+}
+@media (max-width: 967px) {
+  .path-mod-assessment .userrow.heading .awards,
+  .path-mod-assessment .userrow.heading .feedbackheading,
+  .path-mod-assessment .userrow.heading .actions {
+    display: none;
+  }
 }
 .path-mod-assessment .userrow .award {
   background-size: cover;
   height: 50px;
-  width: 50px;
+  width: 110px;
   float: left;
   display: block;
   margin: 0 5px;
   cursor: pointer;
+  text-align: center;
 }
 .path-mod-assessment .userrow .awardimage {
   width: 50px;
@@ -115,10 +143,12 @@
   /* Microsoft Edge and Firefox 35+ */
   -webkit-filter: grayscale(1);
   /* Google Chrome, Safari 6+ & Opera 15+ */
+  opacity: 0.5;
 }
 .path-mod-assessment .userrow .awardimage:hover {
   filter: none;
   -webkit-filter: grayscale(0);
+  opacity: 1;
 }
 .path-mod-assessment .userrow .teacherimage {
   margin-left: 5px;
@@ -127,6 +157,7 @@
 .path-mod-assessment .userrow .active .awardimage {
   filter: none;
   -webkit-filter: grayscale(0);
+  opacity: 1;
 }
 .path-mod-assessment .userrow .feedbackcontent {
   width: 25%;
@@ -134,8 +165,19 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+@media (max-width: 967px) {
+  .path-mod-assessment .userrow .feedbackcontent {
+    width: 100%;
+    padding-left: 50px;
+    margin-bottom: 20px;
+  }
+}
 .path-mod-assessment .userrow .feedbackheading {
   width: 25%;
+}
+.path-mod-assessment .userrow .usercell.actions {
+  position: absolute;
+  right: 20px;
 }
 .path-mod-assessment .singleuser .award {
   background-image: url('/cambridge/images/award.png');
@@ -160,6 +202,9 @@
 }
 .path-mod-assessment .topactions {
   margin-bottom: 20px;
+}
+.path-mod-assessment .feedbacktext {
+  padding: 20px 0;
 }
 .path-mod-assessment .feedbackrow {
   padding-left: 0px;

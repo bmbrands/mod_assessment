@@ -76,7 +76,7 @@ class mod_assessment_renderer extends plugin_renderer_base {
     public function user_heading($awards) {
         $content = '';
         $template = '
-                <div class="row userrow">
+                <div class="row userrow heading">
                     <div class="usercell userpicture">
                         <div class="userimage"></div>
                     </div>
@@ -126,7 +126,7 @@ class mod_assessment_renderer extends plugin_renderer_base {
     }
 
     public function user_row($user, $canassess = true) {
-        global $OUTPUT;
+        global $OUTPUT, $COURSE;
         $content = '';
         $template = '
         <div data-id="{{userid}}" data-assessment={{assessmentid}} class="row userrow">
@@ -180,7 +180,7 @@ class mod_assessment_renderer extends plugin_renderer_base {
                 array('assessmentid' => $this->assessment->assessment->id, 'userid' => $user->id, 'edit' => 1, 'page' => $page));
             $feedbackclass = '';
         } else {
-            $feedbacklink = '#feedback' . $user->id;
+            $feedbacklink = '#';
             $feedbackclass = 'feedbacklink';
         }
 
@@ -193,8 +193,8 @@ class mod_assessment_renderer extends plugin_renderer_base {
         $cicon = new pix_icon('t/check', $checkimgalt, '', array('title' => $checkimgalt, 'class' => 'checkicon hidden'));
         $checkicon = $OUTPUT->render($cicon);
 
-        $userurl = new moodle_url('/mod/assessment/user.php',
-            array('assessmentid' => $user->assessmentid, 'userid' => $user->id));
+        $userurl = new moodle_url('/user/view.php',
+            array('course' => $COURSE->id, 'id' => $user->id));
         $userlink = html_writer::link($userurl, fullname($user));
 
         if (!$this->assessment->assessment->htmlfeedback) {
@@ -284,15 +284,15 @@ class mod_assessment_renderer extends plugin_renderer_base {
         $user = $this->assessment->singleuser;
 
         $template = '
-        <div id="feedback" class="feedbackrow">
+        <div id="feedback" class="feedbacktext">
             <div class="listview commentinputbox">
                 <div class="lv-item">
                     <div class="media">
-                        <div id="teacherimage" class="float-left teacherimage">
+                        <div id="teacherimage" class="pull-left teacherimage">
                             {{teacherimage}}
                         </div>
                         <div class="commentbody">
-                            <div contenteditable="false" class="commentinput">{{feedback}}</div>
+                            <div>{{feedback}}</div>
                         </div>
                     </div>
                 </div>

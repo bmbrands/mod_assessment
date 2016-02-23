@@ -92,7 +92,6 @@ if ($assessment->assessment->htmlfeedback) {
     if ($edit) {
         $feedbackform->display();
     } else {
-        
         if ($canassess) {
             echo $renderer->show_feedback($canassess);
             echo $renderer->return_to_userlisting($page);

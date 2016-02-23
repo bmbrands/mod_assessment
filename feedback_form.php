@@ -48,7 +48,7 @@ class mod_assessment_feedback_form extends moodleform {
 
         $context = context_module::instance($cmid);
 
-        $textfieldoptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => 0,
+        $textfieldoptions = array('trusttext' => true, 'subdirs' => false, 'maxfiles' => 55,
                           'maxbytes' => 0, 'context' => $context);
 
         $mform->addElement('editor', 'feedback_editor',

@@ -1,7 +1,8 @@
 $(function(){
 
-    $('.feedbacklink').click(function() {
+    $('.feedbacklink').click(function(e) {
         link = $(this);
+        e.preventDefault();
         userrow = link.closest('.userrow');
         userid = userrow.attr('data-id');
         feedbackrow = userrow.find('#feedback');
@@ -21,7 +22,7 @@ $(function(){
 
         // Set the table row
         userrow.find('.award').each(function () {
-            $(this).removeClass('active');
+            medal.removeClass('active');
         });
         medal.addClass('active');
 
@@ -39,6 +40,9 @@ $(function(){
             loader.addClass('hidden');
             if (results.stat === 'success') {
                 checkicon.removeClass('hidden');
+            }
+            if (results.stat === 'unset') {
+                medal.removeClass('active');
             }
         });
     });
