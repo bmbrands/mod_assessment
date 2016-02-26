@@ -66,9 +66,6 @@ $(function(){
                      value: commenthtml
                     }
         });
-        setfeedback.done(function(results) {
-            console.log(results);
-        });
 
     });
 
