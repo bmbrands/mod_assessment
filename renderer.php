@@ -226,6 +226,54 @@ class mod_assessment_renderer extends plugin_renderer_base {
         return $content;
     }
 
+    public function single_user_row($user, $canassess) {
+        global $OUTPUT, $COURSE;
+        $content = '';
+        $template = '
+        <div class="row userrow single">
+            <div id="feedback" class="usercell userpicture linktouser">
+                <div class="userimage">
+                    {{userimage}}
+                </div>
+            </div>
+            <div class="usercell username linktouser">
+                {{username}}
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row userrow single">
+            <div id="awards" class="usercell">
+                {{awards}}
+            </div>
+            <div class="usercell singlefeedbackcontent">
+                {{feedback}}
+            </div>
+            <div class="clearfix"></div>
+        </div>';
+
+        $values = array(
+            '{{userimage}}',
+            '{{username}}',
+            '{{awards}}',
+            '{{feedback}}');
+
+
+        $userurl = new moodle_url('/user/view.php',
+            array('course' => $COURSE->id, 'id' => $user->id));
+        $userlink = html_writer::link($userurl, fullname($user));
+
+        $replacements = array(
+            $OUTPUT->user_picture($user),
+            $userlink,
+            $this->user_row_awards($user, $canassess),
+            $user->feedback->feedback
+            );
+
+        $content .= str_replace($values, $replacements, $template);
+        return $content;
+    }
+
     public function js_feedback_row($user) {
         $template = '
         <div id="feedback" class="feedbackrow {{hidden}}">
@@ -344,8 +392,12 @@ class mod_assessment_renderer extends plugin_renderer_base {
             if (!$canassess && $this->assessment->singleuser->grade == '') {
                 return html_writer::tag('div', get_string('ungraded', 'mod_assessment'), array('class' => 'alert alert-warning'));
             }
-            $content = $this->user_heading($this->assessment->singleuser->awards);
-            $content .= $this->user_row($this->assessment->singleuser, $canassess);
+            if ($canassess) {
+                $content = $this->user_heading($this->assessment->singleuser->awards);
+                $content .= $this->user_row($this->assessment->singleuser, $canassess);
+            } else {
+                $content .= $this->single_user_row($this->assessment->singleuser, $canassess);
+            }
         }
         return $content;
     }

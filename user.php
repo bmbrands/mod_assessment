@@ -88,6 +88,7 @@ $PAGE->requires->jquery_plugin('assessment', 'mod_assessment');
 echo $OUTPUT->header();
 
 echo $renderer->user_view($canassess);
+
 if ($assessment->assessment->htmlfeedback) {
     if ($edit) {
         $feedbackform->display();

@@ -39,6 +39,7 @@ class assessment {
     public $awards;
     public $messages;
     public $pages;
+    public $page;
 
     /**
      * @param int|string $cmid optional
@@ -292,10 +293,15 @@ class assessment {
             $this->save_feedback($formdata);
         } 
 
-        $entry = $DB->get_record('assessment_feedback', array('assessment' => $this->assessment->id,
-            'userid' => $this->singleuser->id));
-        $entry = file_prepare_standard_editor($entry, 'feedback', $definitionoptions, $this->context,
+        if ($entry = $DB->get_record('assessment_feedback', array('assessment' => $this->assessment->id,
+            'userid' => $this->singleuser->id))) {
+            $entry = file_prepare_standard_editor($entry, 'feedback', $definitionoptions, $this->context,
             'mod_assessment', 'feedback', $entry->id);
+        } else {
+            $entry = new stdClass();
+        }
+
+        
         $feedbackform->set_data($entry);
         
     }
@@ -304,6 +310,8 @@ class assessment {
         global $DB, $CFG, $USER;
 
         $definitionoptions = array('trusttext' => true, 'subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 99);
+
+        $this->page = $formdata->page;
 
         if ($storedfeedback = $DB->get_record('assessment_feedback',
             array('course' => $this->course->id, 'assessment' => $this->assessment->id, 'userid' => $this->singleuser->id))) {
@@ -335,8 +343,8 @@ class assessment {
             }
         }
 
-        $redirecturl = new moodle_url('/mod/assessment/user.php',
-            array('assessmentid' => $this->assessment->id, 'userid' => $this->singleuser->id, 'edit' => 0));
+        $redirecturl = new moodle_url('/mod/assessment/view.php',
+            array('id' => $this->cm->id, 'page' => $this->page));
         redirect($redirecturl);
     }
 
