@@ -22,7 +22,7 @@ $(function(){
 
         // Set the table row
         userrow.find('.award').each(function () {
-            medal.removeClass('active');
+            $(this).removeClass('active');
         });
         medal.addClass('active');
 
