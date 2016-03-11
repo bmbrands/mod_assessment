@@ -121,9 +121,11 @@ class assessment {
                 }
             }
         }
-        ksort($studentlist);
-        $students = $this->pagination($studentlist);
-        return $students;
+        if (!empty($studentlist)) {
+            ksort($studentlist);
+            $students = $this->pagination($studentlist);
+            return $students;
+        }
     }
 
     private function searchmatch($user, $search) {
@@ -136,7 +138,6 @@ class assessment {
         if (preg_match("/$search/i", $user->lastname)) {
             return true;
         }
-
     }
 
     private function pagination($studentlist) {
@@ -230,7 +231,6 @@ class assessment {
         $this->feedback = $userfeedback;
     }
 
-
     private function get_all_awards() {
         global $DB;
         $awardgrades = array();
@@ -282,16 +282,17 @@ class assessment {
         global $DB;
         $this->feedbackform = $feedbackform;
         $definitionoptions = array('trusttext' => true, 'subdirs' => 0, 'maxbytes' => 0, 'maxfiles' => 99,
-        'context' => $this->context);        
+        'context' => $this->context);
         if ($feedbackform->is_cancelled()) {
-            $redirecturl = new moodle_url('/mod/assessment/view.php', array('id' => $this->cm->id, 'page' => $page));
+            $redirecturl = new moodle_url('/mod/assessment/view.php', array('id' => $this->cm->id, 'page' => $page),
+                'feedback' . $this->singleuser->id);
             redirect($redirecturl);
         }
 
         if ($formdata = $feedbackform->get_data()) {
             // Process data.
             $this->save_feedback($formdata);
-        } 
+        }
 
         if ($entry = $DB->get_record('assessment_feedback', array('assessment' => $this->assessment->id,
             'userid' => $this->singleuser->id))) {
@@ -301,9 +302,7 @@ class assessment {
             $entry = new stdClass();
         }
 
-        
         $feedbackform->set_data($entry);
-        
     }
 
     public function save_feedback($formdata) {
@@ -344,8 +343,7 @@ class assessment {
         }
 
         $redirecturl = new moodle_url('/mod/assessment/view.php',
-            array('id' => $this->cm->id, 'page' => $this->page));
+            array('id' => $this->cm->id, 'page' => $this->page),  'feedback' . $this->singleuser->id);
         redirect($redirecturl);
     }
-
 }

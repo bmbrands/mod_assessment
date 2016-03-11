@@ -204,6 +204,15 @@ function assessment_grade_item_update($assessment, $grades = null) {
     return grade_update('mod/assessment', $assessment->course, 'mod', 'assessment', $assessment->id, 0, $grades, $params);
 }
 
+function assessment_delete_grade($assessment, $userid) {
+    global $CFG, $DB;
+    require_once($CFG->libdir.'/gradelib.php');
+    $grade = new stdClass();
+    $grade->userid   = $userid;
+    $grade->rawgrade = null;
+    assessment_grade_item_update($assessment, $grade);
+}
+
 function assessment_update_grades($assessment, $userid=0, $nullifnon=true) {
     global $CFG, $DB;
     require_once($CFG->libdir.'/gradelib.php');

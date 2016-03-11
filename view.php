@@ -30,7 +30,6 @@ $cmid = optional_param('cmid', '', PARAM_INT);
 $group = optional_param('group', 0, PARAM_INT);
 $search = optional_param('query', '', PARAM_RAW);
 
-
 if ($cmid) {
     $id = $cmid;
 }

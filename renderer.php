@@ -60,15 +60,16 @@ class mod_assessment_renderer extends plugin_renderer_base {
     }
 
     public function user_listing($search) {
-
         $students = $this->assessment->student_list($search);
         $awards = $this->assessment->awards;
 
         $content = '';
         $content .= $this->user_heading($awards);
 
-        foreach ($students as $student) {
-            $content .= $this->user_row($student);
+        if (!empty($students)) {
+            foreach ($students as $student) {
+                $content .= $this->user_row($student);
+            }
         }
         return $content;
     }
@@ -115,7 +116,6 @@ class mod_assessment_renderer extends plugin_renderer_base {
     }
 
     public function user_heading_awards($awards) {
-
         $content = '';
         $template = '<div id="{{name}}" class="awardheader inactive"><strong>{{name}}</strong></div>';
 
@@ -183,7 +183,6 @@ class mod_assessment_renderer extends plugin_renderer_base {
             $feedbacklink = '#';
             $feedbackclass = 'feedbacklink';
         }
-
 
         $loaderimgalt = get_string('loading', 'mod_assessment');
         $licon = new pix_icon('i/ajaxloader', $loaderimgalt, '', array('title' => $loaderimgalt, 'class' => 'loadericon hidden'));
@@ -257,7 +256,6 @@ class mod_assessment_renderer extends plugin_renderer_base {
             '{{username}}',
             '{{awards}}',
             '{{feedback}}');
-
 
         $userurl = new moodle_url('/user/view.php',
             array('course' => $COURSE->id, 'id' => $user->id));
@@ -457,7 +455,6 @@ class mod_assessment_renderer extends plugin_renderer_base {
     }
 
     public function pagination_pages($pages) {
-
         $content = '';
         $template = '<li class="{{active}}"><a href="{{link}}">{{number}}</a></li>';
 
@@ -476,7 +473,7 @@ class mod_assessment_renderer extends plugin_renderer_base {
             $replacements = array(
                 $active,
                 $link,
-                $page);
+                $page + 1);
 
             $content .= str_replace($values, $replacements, $template);
         }

@@ -21,10 +21,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2016022900;
-$plugin->requires  = 2014051200;
-$plugin->component = 'mod_assessment';
-$plugin->cron      = 0;
+$module->version = 2016031100;
+$module->requires = 2013051400;
+$module->component = 'mod_assessment';
+$module->cron = 0;

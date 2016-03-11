@@ -29,6 +29,4 @@ When the Assessment is fully configured teachers, editing teachers and managers 
 
 The maximum number of students shown on the Assessment interface is 20. If there are more users to assess pagination is added at the end of the list of users.
 
-Once the Assessment has been configured it can be used by a teacher to quickly grade students. 
-
-
+Once the Assessment has been configured it can be used by a teacher to quickly grade students.

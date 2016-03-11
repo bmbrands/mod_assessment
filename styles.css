@@ -48,6 +48,18 @@
   position: relative;
   border-bottom: 1px solid #eee;
 }
+.path-mod-assessment .userrow .hidden {
+  display: none;
+}
+.path-mod-assessment .userrow:before,
+.path-mod-assessment .userrow:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+.path-mod-assessment .userrow:after {
+  clear: both;
+}
 .path-mod-assessment .userrow.single {
   border-bottom: 0;
 }

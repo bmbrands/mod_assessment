@@ -74,6 +74,7 @@ if ($storedgrade = $DB->get_record('assessment_grades',
     if ($storedgrade->grade == $award->awardgrade) {
         if ($DB->delete_records('assessment_grades',
             array('course' => $course->id, 'assessment' => $assessmentid, 'userid' => $userid))) {
+            assessment_delete_grade($assessment, $userid);
             $result = array('stat' => 'unset');
             echo json_encode($result);
             die();

@@ -26,7 +26,7 @@ require_once("lib.php");
 require_once("locallib.php");
 require_once("feedback_form.php");
 
-$userid = optional_param('userid', '', PARAM_INT);
+$userid = required_param('userid', PARAM_INT);
 $assessmentid = optional_param('assessmentid', '', PARAM_INT);
 $group = optional_param('group', 0, PARAM_INT);
 $edit = optional_param('edit', 0, PARAM_INT);
@@ -73,7 +73,7 @@ $feedbackform = new mod_assessment_feedback_form(null, $formoptions);
 
 $assessment = new assessment($cm, $course, $group);
 $assessment->set_user($user);
-$assessment->set_form($feedbackform, $page);
+$assessment->set_form($feedbackform, $page, $userid);
 
 $renderer = $PAGE->get_renderer('mod_assessment');
 $renderer->set_assessment($assessment);
