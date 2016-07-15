@@ -1,5 +1,5 @@
 <?php
-// This file is part of the Election plugin for Moodle
+// This file is part of the Assessment plugin for Moodle
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,9 +24,15 @@
 class mod_assessment_renderer extends plugin_renderer_base {
 
     private $assessment;
+    private $makepdf;
 
     public function set_assessment($assessment) {
         $this->assessment = $assessment;
+        if (isset($this->assessment->makepdf)) {
+            $this->makepdf = true;
+        } else {
+            $this->makepdf = false;
+        }
     }
 
     public function user_search($searchword) {
@@ -74,6 +80,27 @@ class mod_assessment_renderer extends plugin_renderer_base {
         return $content;
     }
 
+    public function pdf_listing() {
+        global $CFG;
+        $students = $this->assessment->student_list('');
+        $awards = $this->assessment->awards;
+
+        $content = '<style>';
+        $content .= file_get_contents($CFG->dirroot . '/mod/assessment/styles.css');
+        $content .= '</style>';
+
+        $content .= '<div class="path-mod-assessment">';
+        $content .= $this->pdf_heading($awards);
+        
+        if (!empty($students)) {
+            foreach ($students as $student) {
+                $content .= $this->pdf_row($student);
+            }
+        }
+        $content .= '</div>';
+        return $content;
+    }
+
     public function user_heading($awards) {
         $content = '';
         $template = '
@@ -108,6 +135,41 @@ class mod_assessment_renderer extends plugin_renderer_base {
             $this->user_heading_awards($awards),
             get_string('feedback', 'mod_assessment'),
             get_string('actions', 'mod_assessment')
+            );
+
+        $content .= str_replace($values, $replacements, $template);
+        return $content;
+
+    }
+
+    public function pdf_heading($awards) {
+        $content = '';
+        $template = '
+                <div class="row userrow pdfheading">
+                    <div class="usercell pdf userpicture">
+                        <div class="userimage"></div>
+                    </div>
+                    <div class="usercell pdf username">
+                        <strong>{{username}}</strong>
+                    </div>
+                    <div class="usercell pdf awards">
+                        {{awards}}
+                    </div>
+                    <div class="usercell pdf feedback">
+                        {{feedback}}
+                    </div>
+                    <div class="clearfix"></div>
+                </div>';
+
+        $values = array(
+            '{{username}}',
+            '{{awards}}',
+            '{{feedback}}');
+
+        $replacements = array(
+            get_string('username', 'mod_assessment'),
+            get_string('award', 'mod_assessment'),
+            get_string('feedback', 'mod_assessment')
             );
 
         $content .= str_replace($values, $replacements, $template);
@@ -224,6 +286,54 @@ class mod_assessment_renderer extends plugin_renderer_base {
         $content .= str_replace($values, $replacements, $template);
         return $content;
     }
+
+    public function pdf_row($user) {
+        global $OUTPUT, $COURSE;
+        $content = '';
+        $template = '
+        <div class="row userrow ">
+            <div id="feedback{{userid}}" class="usercell userpicture linktouser">
+                <div class="userimage">
+                    {{userimage}}
+                </div>
+            </div>
+            <div class="usercell username pdf linktouser">
+                {{username}}
+            </div>
+            <div id="awards" class="usercell pdf awards">
+                {{awards}}
+            </div>
+            <div class="usercell pdf feedback">
+                {{feedback}}
+            </div>
+            <div class="clearfix"></div>
+        </div>';
+
+        $values = array(
+            '{{userid}}',
+            '{{assessmentid}}',
+            '{{userimage}}',
+            '{{username}}',
+            '{{awardsnum}}',
+            '{{awards}}',
+            '{{feedback}}');
+
+        $userlink = fullname($user);
+
+        $replacements = array(
+            $user->id,
+            $user->assessmentid,
+            $OUTPUT->user_picture($user),
+            $userlink,
+            count($user->awards),
+            $this->user_row_awards($user, false),
+            $user->feedback->feedback,
+            );
+
+        $content .= str_replace($values, $replacements, $template);
+        return $content;
+    }
+
 
     public function single_user_row($user, $canassess) {
         global $OUTPUT, $COURSE;

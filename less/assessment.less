@@ -1,0 +1,253 @@
+.path-mod-assessment {
+    .pagination {
+        display: inline-block;
+        padding-left: 0;
+        margin: 20px 0;
+        border-radius: 0px;
+        > li {
+            display: inline;
+            a {
+                position: relative;
+                float: left;
+                padding: 6px 12px;
+                line-height: 1.53846154;
+                text-decoration: none;
+                color: #333333;
+                background-color: #ffffff;
+                border: 1px solid #dddddd;
+                margin-left: -1px;
+            }
+            &:first-child > a,
+            &:first-child > span {
+                margin-left: 0;
+                border-bottom-left-radius: 0px;
+                border-top-left-radius: 0px;
+            }
+        }
+        .active > a,
+        .active > span,
+        .active > a:hover,
+        .active > span:hover,
+        .active > a:focus,
+        .active > span:focus {
+            z-index: 2;
+            color: #ffffff;
+            background-color: #337ab7;
+            border-color: #337ab7;
+            cursor: default;
+        }
+
+        > li > a:hover,
+        > li > span:hover,
+        > li > a:focus,
+        > li > span:focus {
+            color: #000000;
+            background-color: #eeeeee;
+            border-color: #dddddd;
+        }
+    }
+    .pdfheading {
+        font-weight: 600;
+    }
+
+    .userrow {
+        border-bottom: 1px solid #eee;
+        .float-left {
+            float: left;
+        }
+        .float-right {
+            float: right;
+        }
+        .userimage {
+            height: 25px;
+            width: 25px;
+            background-size: cover;
+            background-position: center center;
+        }
+        .linktouser {
+            &:hover {
+                cursor: pointer;
+            }
+            color: #006790;
+            text-decoration: underline;
+        }
+        .usercell {
+            padding: 3px 7px;   
+            float: left;
+
+        }
+        .username {
+            width: 150px;
+        }
+        .awardheader {
+            width: 33%;
+            float: left;
+            text-align: center
+        }
+        .awards {
+            width: 180px;
+            float: left;
+        }
+
+        .pdf {
+            &.username {
+                with: 200px;
+            }
+            &.awards {
+                width: 120px;
+            }
+            &.feedback {
+                width: 55%;
+            }
+        }
+        .awards.awards1 {
+            width: 90px;
+        }
+        .awards.awards3 {
+            width: 180px;
+        }
+        .awards.awards4 {
+            width: 240px;
+        }
+        .awards.awards5 {
+            width: 240px;
+        }
+        .award {
+            background-size: cover;
+            height: 50px;
+            width: 50px;
+            float: left;
+            display: block;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        .awardimage {
+            width: 50px;
+            height: auto;
+            filter: gray; /* IE6-9 */
+            filter: grayscale(1); /* Microsoft Edge and Firefox 35+ */
+            -webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
+            &:hover {
+              filter: none;
+              -webkit-filter: grayscale(0);
+            }
+        }
+        .teacherimage {
+            margin-left: 5px;
+            padding-right: 5px;
+        }
+        .active .awardimage {
+            filter:none;
+            -webkit-filter: grayscale(0);
+        }
+        .feedbackcontent {
+            width: 25%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .feedbackheading {
+            width: 25%;
+        }
+        .clearfix {
+            clear: both;
+        }
+    }
+    .singleuser {
+        .award {
+            background-image: url('/cambridge/images/award.png');
+            background-size: cover;
+            height: 75px;
+            width: 75px;
+            float: left;
+            display: block;
+            margin: 0 5px;
+        }
+        .userimage {
+            height: 75px;
+            width: 75px;
+            background-size: cover;
+            background-position: center center;
+        }
+        .feedbackheader {
+            margin-left: 43px;
+        }
+    }
+
+    .assessmentdescription {
+        margin-bottom: 20px;
+    }
+    .topactions {
+        margin-bottom: 20px;
+    }
+
+    .feedbackrow {
+        padding-left: 0px;
+        padding-right: 0px;
+        .userpicture {
+            width: 30px;
+            height: 30px;
+        }
+
+        .listview {
+            position: relative;
+        }
+
+        .listview .lv-item {
+            padding: 10px 0 10px 43px;
+            max-width: 650px;
+        }
+        .listview .lv-title {
+            overflow: hidden;
+            margin-right: 20px;
+            display: block;
+        }
+        .listview .lv-item .lv-small {
+            font-size: 12px;
+            color: #A9A9A9;
+            width: 100%;
+            margin-left: 3px;
+        }
+
+        .p-relative {
+            margin-left: 5px;
+            padding-right: 5px;
+        }
+
+        .commentinputbox .commentbody {
+            padding-right: 10px;
+            margin-bottom: 25px;
+        }
+
+        .commentinput {
+            border: 1px solid #ddd;
+            padding: 6px 10px 5px 10px;
+            min-height: 120px;
+            line-height: 16px;
+            overflow: auto;
+            resize: vertical;
+            background-color: #fff;
+            border-radius: 2px;
+            box-shadow: inset 0 0 1px rgba(0,0,0,.05);
+            color: #333;
+            white-space: pre-wrap;
+        }
+
+        #commentactions {
+            margin-top: 5px;
+        }
+        .lv-item {
+            border-bottom: 1px solid #f0f0f0;
+            position: relative;
+        }
+
+        .mooccommentdelete {
+            position: absolute;
+            right: 3px;
+            top: 3px;
+        }
+        .no-overflow {
+            margin-bottom: 0px;
+        }
+    }
+}

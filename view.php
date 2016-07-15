@@ -1,5 +1,5 @@
 <?php
-// This file is part of the Election plugin for Moodle
+// This file is part of the Assessment plugin for Moodle
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -88,6 +88,8 @@ if ($assessment->assessment->intro) {
     echo $OUTPUT->box(format_module_intro('assessment', $assessment->assessment, $cm->id), 'generalbox', 'intro');
 }
 
+$printurl = new moodle_url('/mod/assessment/print.php', array('id' => $id));
+echo html_writer::link($printurl, 'printme');
 echo $renderer->user_search($search);
 echo $renderer->user_listing($search);
 echo $renderer->pagination();

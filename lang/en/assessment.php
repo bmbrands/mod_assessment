@@ -1,5 +1,5 @@
 <?php
-// This file is part of the Election plugin for Moodle
+// This file is part of the Assessment plugin for Moodle
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -32,11 +32,13 @@ $string['modulename_link'] = 'mod/assessment/view';
 $string['modulenameplural'] = 'Assessments';
 $string['pluginname'] = 'Assessment';
 $string['pluginadministration'] = 'Assessment Administration';
+$string['printerissue'] = 'Something went wrong printing this assessment';
 
 // Form labels.
 $string['assessmentname'] = 'Assessment Name';
 $string['htmlfeedback'] = 'Allow HTML editor for feedback';
 $string['htmlfeedback_help'] = 'Teacher can use the HTML editor to add HTML markup to feedback. This could slow down the browser performance';
+$string['award'] = 'Award';
 $string['awardname'] = 'Award Name {$a}';
 $string['awardgrade'] = 'Award Grade {$a}';
 $string['awardimage'] = 'Award Image {$a}';

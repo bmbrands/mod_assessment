@@ -44,24 +44,11 @@
   background-color: #eeeeee;
   border-color: #dddddd;
 }
+.path-mod-assessment .pdfheading {
+  font-weight: 600;
+}
 .path-mod-assessment .userrow {
-  position: relative;
   border-bottom: 1px solid #eee;
-}
-.path-mod-assessment .userrow .hidden {
-  display: none;
-}
-.path-mod-assessment .userrow:before,
-.path-mod-assessment .userrow:after {
-  display: table;
-  line-height: 0;
-  content: "";
-}
-.path-mod-assessment .userrow:after {
-  clear: both;
-}
-.path-mod-assessment .userrow.single {
-  border-bottom: 0;
 }
 .path-mod-assessment .userrow .float-left {
   float: left;
@@ -94,60 +81,39 @@
   float: left;
   text-align: center;
 }
-.path-mod-assessment .userrow .awards4 .awardheader {
-  width: 25%;
-}
-.path-mod-assessment .userrow .awards5 .awardheader {
-  width: 20%;
-}
 .path-mod-assessment .userrow .awards {
-  width: 360px;
+  width: 180px;
   float: left;
 }
-@media (max-width: 967px) {
-  .path-mod-assessment .userrow .awards {
-    width: 100% !important;
-    text-align: center;
-    padding: 20px 0;
-  }
-  .path-mod-assessment .userrow .awards.awards3 .award {
-    width: 33%;
-    margin: 0;
-  }
-  .path-mod-assessment .userrow .awards.awards4 .award {
-    width: 25%;
-    margin: 0;
-  }
-  .path-mod-assessment .userrow .awards.awards5 .award {
-    width: 20%;
-    margin: 0;
-  }
+.path-mod-assessment .userrow .pdf.username {
+  with: 200px;
+}
+.path-mod-assessment .userrow .pdf.awards {
+  width: 120px;
+}
+.path-mod-assessment .userrow .pdf.feedback {
+  width: 55%;
+}
+.path-mod-assessment .userrow .awards.awards1 {
+  width: 90px;
 }
 .path-mod-assessment .userrow .awards.awards3 {
-  width: 360px;
+  width: 180px;
 }
 .path-mod-assessment .userrow .awards.awards4 {
-  width: 480px;
+  width: 240px;
 }
 .path-mod-assessment .userrow .awards.awards5 {
-  width: 600px;
-}
-@media (max-width: 967px) {
-  .path-mod-assessment .userrow.heading .awards,
-  .path-mod-assessment .userrow.heading .feedbackheading,
-  .path-mod-assessment .userrow.heading .actions {
-    display: none;
-  }
+  width: 240px;
 }
 .path-mod-assessment .userrow .award {
   background-size: cover;
   height: 50px;
-  width: 110px;
+  width: 50px;
   float: left;
   display: block;
   margin: 0 5px;
   cursor: pointer;
-  text-align: center;
 }
 .path-mod-assessment .userrow .awardimage {
   width: 50px;
@@ -158,12 +124,10 @@
   /* Microsoft Edge and Firefox 35+ */
   -webkit-filter: grayscale(1);
   /* Google Chrome, Safari 6+ & Opera 15+ */
-  opacity: 0.3;
 }
 .path-mod-assessment .userrow .awardimage:hover {
   filter: none;
   -webkit-filter: grayscale(0);
-  opacity: 1;
 }
 .path-mod-assessment .userrow .teacherimage {
   margin-left: 5px;
@@ -172,7 +136,6 @@
 .path-mod-assessment .userrow .active .awardimage {
   filter: none;
   -webkit-filter: grayscale(0);
-  opacity: 1;
 }
 .path-mod-assessment .userrow .feedbackcontent {
   width: 25%;
@@ -180,27 +143,11 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-@media (max-width: 967px) {
-  .path-mod-assessment .userrow .feedbackcontent {
-    width: 100%;
-    padding-left: 50px;
-    margin-bottom: 20px;
-  }
-}
-.path-mod-assessment .userrow .singlefeedbackcontent {
-  width: 70%;
-}
-@media (max-width: 967px) {
-  .path-mod-assessment .userrow .singlefeedbackcontent {
-    width: auto;
-  }
-}
 .path-mod-assessment .userrow .feedbackheading {
   width: 25%;
 }
-.path-mod-assessment .userrow .usercell.actions {
-  position: absolute;
-  right: 20px;
+.path-mod-assessment .userrow .clearfix {
+  clear: both;
 }
 .path-mod-assessment .singleuser .award {
   background-image: url('/cambridge/images/award.png');
@@ -225,9 +172,6 @@
 }
 .path-mod-assessment .topactions {
   margin-bottom: 20px;
-}
-.path-mod-assessment .feedbacktext {
-  padding: 20px 0;
 }
 .path-mod-assessment .feedbackrow {
   padding-left: 0px;
