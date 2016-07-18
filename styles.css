@@ -44,9 +44,6 @@
   background-color: #eeeeee;
   border-color: #dddddd;
 }
-.path-mod-assessment .pdfheading {
-  font-weight: 600;
-}
 .path-mod-assessment .userrow {
   border-bottom: 1px solid #eee;
 }
@@ -84,18 +81,6 @@
 .path-mod-assessment .userrow .awards {
   width: 180px;
   float: left;
-}
-.path-mod-assessment .userrow .pdf.username {
-  with: 200px;
-}
-.path-mod-assessment .userrow .pdf.awards {
-  width: 120px;
-}
-.path-mod-assessment .userrow .pdf.feedback {
-  width: 55%;
-}
-.path-mod-assessment .userrow .awards.awards1 {
-  width: 90px;
 }
 .path-mod-assessment .userrow .awards.awards3 {
   width: 180px;
@@ -149,7 +134,7 @@
 .path-mod-assessment .userrow .clearfix {
   clear: both;
 }
-.path-mod-assessment .singleuser .award {
+.path-mod-assessment .singleuser .award img.awardimage {
   background-image: url('/cambridge/images/award.png');
   background-size: cover;
   height: 75px;
@@ -159,8 +144,8 @@
   margin: 0 5px;
 }
 .path-mod-assessment .singleuser .userimage {
-  height: 75px;
-  width: 75px;
+  height: 50px;
+  width: 50px;
   background-size: cover;
   background-position: center center;
 }

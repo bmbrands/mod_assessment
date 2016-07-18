@@ -27,28 +27,43 @@ require_once("locallib.php");
 require_once("printer.php");
 
 $id = optional_param('id', '', PARAM_INT);
+$assessmentid = optional_param('assessmentid', '', PARAM_INT);
 $cmid = optional_param('cmid', '', PARAM_INT);
 $group = optional_param('group', 0, PARAM_INT);
 $search = optional_param('query', '', PARAM_RAW);
+$userid = optional_param('userid', 0, PARAM_INT);
 
 if ($cmid) {
     $id = $cmid;
 }
 
-if (! $cm = get_coursemodule_from_id('assessment', $id)) {
-    print_error('invalidcoursemodule');
+if ($assessmentid) {
+    if (! $cm = get_coursemodule_from_instance('assessment', $assessmentid)) {
+        print_error('invalidcoursemodule');
+    }
+} else {
+
+    if (! $cm = get_coursemodule_from_id('assessment', $id)) {
+        print_error('invalidcoursemodule');
+    }
 }
 
 if (! $course = $DB->get_record("course", array("id" => $cm->course))) {
     print_error('coursemisconf');
 }
 
+if ($userid) {
+    $user = $DB->get_record("user", array("id" => $userid));
+} else {
+    $user = 0;
+}
+
 require_course_login($course, false, $cm);
+$context = context_module::instance($cm->id);
 
-
-// try {
+//try {
     $assessment = new assessment($cm, $course, $group);
-    $printer = new assessment_printer($assessment);
+    $printer = new assessment_printer($assessment, $course, $context, $user);
     $printer->pdf();
 // } catch (Exception $e) {
 //     $PAGE->set_url('/mod/assessment/print.php', array('id' => $cm->id));

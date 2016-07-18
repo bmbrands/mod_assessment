@@ -109,8 +109,9 @@ class restore_assessment_activity_structure_step extends restore_activity_struct
     }
 
     protected function after_execute() {
+
         foreach ($this->awards as $key => $award) {
-            $this->add_related_files('mod_assessment', 'award', null, null, $key);
+            $this->add_related_files('mod_assessment', 'award', 'assessment', null, $key);
         }
     }
 

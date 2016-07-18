@@ -27,28 +27,12 @@ defined('MOODLE_INTERNAL') || die();
 
 class assessment_printer {
 
-    /**
-     * Appraisal object.
-     * @var \mod_assessement\appraisal $appraisal
-     */
     private $assessment;
-
-    /**
-     * PDF class.
-     * @var \mod_assessement\pdf $pdf
-     */
+    private $course;
+    private $context;
+    private $user;
     private $pdf;
-
-    /**
-     * What to print.
-     * @var string $print
-     */
     private $print;
-
-    /**
-     * Error message.
-     * @var string $error
-     */
     private $error;
 
     /**
@@ -58,8 +42,11 @@ class assessment_printer {
      *
      * @param object $assessment Assessment object.
      */
-    public function __construct($assessment) {
+    public function __construct($assessment, $course, $context, $user = null) {
         $this->assessment = $assessment;
+        $this->course = $course;
+        $this->context = $context;
+        $this->user = $user;
         
         // Check if this user is allowed to print.
         if (!$this->can_print()) {
@@ -70,30 +57,20 @@ class assessment_printer {
     }
 
     /**
-     *  Magic getter.
-     * 
-     * @param string $name
-     * @return mixed property
-     * @throws Exception
-     */
-    public function __get($name) {
-        if (method_exists($this, "get_{$name}")) {
-            return $this->{"get_{$name}"}();
-        }
-        if (!isset($this->{$name})) {
-            throw new Exception('Undefined property ' .$name. ' requested');
-        }
-        return $this->{$name};
-    }
-
-    /**
      * Check permissions for printing.
      *
      * @return bool true if user can print.
      */
     private function can_print() {
-        return true;
-        //return $this->appraisal->check_permission("{$this->print}:print");
+        global $USER;
+        if (has_capability('mod/assessment:assess', $this->context)) {
+            return true;
+        } else if (has_capability('mod/assessment:receivegrade', $this->context)) {
+            if ($this->user && $USER->id == $this->user->id) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -108,13 +85,16 @@ class assessment_printer {
         $this->assessment->makepdf = true;
         $renderer->set_assessment($this->assessment);
 
-        $headerhtml = 'Test Header';
+        $headerhtml = $this->course->fullname . ' ' . get_string('pluginname', 'mod_assessment');
 
-        // Do we need a legacy renderer?
-        $contenthtml = $renderer->pdf_listing();
+        if (!$this->user) {
+            $contenthtml = $renderer->pdf_listing();
+        } else {
+            $contenthtml = $renderer->pdf_user($this->user);
+        }
 
         $this->pdf->set_customheaderhtml($headerhtml);
-        $this->pdf->SetMargins(10, 30, 10);
+        $this->pdf->SetMargins(5, 15, 10);
         $this->pdf->AddPage();
         $this->pdf->SetFont('', '', 12);
         $this->pdf->SetTextColor(25, 25, 75);

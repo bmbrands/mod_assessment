@@ -80,27 +80,6 @@ class mod_assessment_renderer extends plugin_renderer_base {
         return $content;
     }
 
-    public function pdf_listing() {
-        global $CFG;
-        $students = $this->assessment->student_list('');
-        $awards = $this->assessment->awards;
-
-        $content = '<style>';
-        $content .= file_get_contents($CFG->dirroot . '/mod/assessment/styles.css');
-        $content .= '</style>';
-
-        $content .= '<div class="path-mod-assessment">';
-        $content .= $this->pdf_heading($awards);
-        
-        if (!empty($students)) {
-            foreach ($students as $student) {
-                $content .= $this->pdf_row($student);
-            }
-        }
-        $content .= '</div>';
-        return $content;
-    }
-
     public function user_heading($awards) {
         $content = '';
         $template = '
@@ -139,42 +118,6 @@ class mod_assessment_renderer extends plugin_renderer_base {
 
         $content .= str_replace($values, $replacements, $template);
         return $content;
-
-    }
-
-    public function pdf_heading($awards) {
-        $content = '';
-        $template = '
-                <div class="row userrow pdfheading">
-                    <div class="usercell pdf userpicture">
-                        <div class="userimage"></div>
-                    </div>
-                    <div class="usercell pdf username">
-                        <strong>{{username}}</strong>
-                    </div>
-                    <div class="usercell pdf awards">
-                        {{awards}}
-                    </div>
-                    <div class="usercell pdf feedback">
-                        {{feedback}}
-                    </div>
-                    <div class="clearfix"></div>
-                </div>';
-
-        $values = array(
-            '{{username}}',
-            '{{awards}}',
-            '{{feedback}}');
-
-        $replacements = array(
-            get_string('username', 'mod_assessment'),
-            get_string('award', 'mod_assessment'),
-            get_string('feedback', 'mod_assessment')
-            );
-
-        $content .= str_replace($values, $replacements, $template);
-        return $content;
-
     }
 
     public function user_heading_awards($awards) {
@@ -287,94 +230,72 @@ class mod_assessment_renderer extends plugin_renderer_base {
         return $content;
     }
 
-    public function pdf_row($user) {
-        global $OUTPUT, $COURSE;
-        $content = '';
-        $template = '
-        <div class="row userrow ">
-            <div id="feedback{{userid}}" class="usercell userpicture linktouser">
-                <div class="userimage">
-                    {{userimage}}
-                </div>
-            </div>
-            <div class="usercell username pdf linktouser">
-                {{username}}
-            </div>
-            <div id="awards" class="usercell pdf awards">
-                {{awards}}
-            </div>
-            <div class="usercell pdf feedback">
-                {{feedback}}
-            </div>
-            <div class="clearfix"></div>
-        </div>';
-
-        $values = array(
-            '{{userid}}',
-            '{{assessmentid}}',
-            '{{userimage}}',
-            '{{username}}',
-            '{{awardsnum}}',
-            '{{awards}}',
-            '{{feedback}}');
-
-        $userlink = fullname($user);
-
-        $replacements = array(
-            $user->id,
-            $user->assessmentid,
-            $OUTPUT->user_picture($user),
-            $userlink,
-            count($user->awards),
-            $this->user_row_awards($user, false),
-            $user->feedback->feedback,
-            );
-
-        $content .= str_replace($values, $replacements, $template);
-        return $content;
-    }
-
-
     public function single_user_row($user, $canassess) {
         global $OUTPUT, $COURSE;
         $content = '';
         $template = '
-        <div class="row userrow single">
-            <div id="feedback" class="usercell userpicture linktouser">
-                <div class="userimage">
-                    {{userimage}}
-                </div>
+        <div class="well">
+            {{printbtn}}
+            <div class="media">
+              <div class="pull-left">
+                  {{userimage}}
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading">{{username}}</h4>
+              </div>
             </div>
-            <div class="usercell username linktouser">
-                {{username}}
-            </div>
-        </div>
-        <br>
-        <br>
-        <div class="row userrow single">
-            <div id="awards" class="usercell">
-                {{awards}}
-            </div>
-            <div class="usercell singlefeedbackcontent">
+
+            <hr>
+
+            <div class="media">
+              <div class="pull-left">
+                  {{awardimage}}
+                  <br>
+                  <div class="text-center">{{awardname}}</div>
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading">{{strfeedback}}</h4>
                 {{feedback}}
+              </div>
             </div>
-            <div class="clearfix"></div>
+
+
         </div>';
 
         $values = array(
+            '{{printbtn}}',
             '{{userimage}}',
             '{{username}}',
-            '{{awards}}',
+            '{{awardimage}}',
+            '{{awardname}}',
+            '{{strfeedback}}',
             '{{feedback}}');
+
+        $awardimage = $awardname = '';
+        foreach ($user->awards as $award) {
+            if ($award->active == 'inactive') {
+                continue;
+            }
+            $awardimage = $award->awardimage;
+            $awardname = $award->awardname;
+        }
 
         $userurl = new moodle_url('/user/view.php',
             array('course' => $COURSE->id, 'id' => $user->id));
         $userlink = html_writer::link($userurl, fullname($user));
 
+        $printurl = new moodle_url('/mod/assessment/print.php', array('assessmentid' => $this->assessment->assessment->id, 'userid' => $user->id));
+        $button = new single_button($printurl, get_string('print', 'mod_assessment'));
+
+        $printbtn = html_writer::tag('div', $OUTPUT->render($button), array('class' => 'pull-right'));
+
         $replacements = array(
+            $printbtn,
             $OUTPUT->user_picture($user),
             $userlink,
-            $this->user_row_awards($user, $canassess),
+            $awardimage,
+            $awardname,
+            get_string('feedback', 'mod_assessment'),
             $user->feedback->feedback
             );
 
@@ -597,4 +518,191 @@ class mod_assessment_renderer extends plugin_renderer_base {
         $button = html_writer::link($url, get_string('return', 'mod_assessment'), array('class' => 'btn btn-default'));
         return $button;
     }
+
+    public function pdf_listing() {
+        global $CFG;
+        $students = $this->assessment->student_list('');
+        $awards = $this->assessment->awards;
+
+        $content = '<div class="path-mod-assessment pdf-print">';
+        $content .= '<div style="text-align:center; display:inline-block; width:75%">
+                        <h2 style="color:red">'.$this->assessment->assessment->name.'</h2>
+                    </div>';
+        $content .= '<table style="padding: 3px">';
+        $content .= $this->pdf_heading($awards);
+        
+        if (!empty($students)) {
+            foreach ($students as $student) {
+                $content .= $this->pdf_row($student);
+            }
+        }
+        $content .= '</table>';
+        $content .= '</div>';
+        return $content;
+    }
+
+    public function pdf_heading($awards) {
+        $content = '';
+        $template = '
+                <tr>
+                    <td style="width: 10%">
+                    </td>
+                    <td style="width: 20%">
+                        <strong>{{username}}</strong>
+                    </td>
+                    <td style="width: 10%">
+                        <strong>{{awards}}</strong>
+                    </td>
+                    <td style="width: 50%">
+                        <strong>{{feedback}}</strong>
+                    </td>
+                </tr>';
+
+        $values = array(
+            '{{username}}',
+            '{{awards}}',
+            '{{feedback}}');
+
+        $replacements = array(
+            get_string('username', 'mod_assessment'),
+            get_string('award', 'mod_assessment'),
+            get_string('feedback', 'mod_assessment')
+            );
+
+        $content .= str_replace($values, $replacements, $template);
+        return $content;
+    }
+
+    public function pdf_row($user) {
+        global $OUTPUT, $COURSE;
+        $content = '';
+        $template = '
+        <tr>
+            <td style="width: 10%; vertical-align: top; border-bottom: 1px solid #CCC">
+                <div class="userimage">
+                    {{userimage}}
+                </div>
+            </td>
+            <td style="width: 20%; vertical-align: top; border-bottom: 1px solid #CCC">
+                <br><br>
+                {{username}}
+            </td>
+            <td style="width: 10%; vertical-align: top; border-bottom: 1px solid #CCC; text-align: center;">
+                {{awardimage}}
+                {{awardname}}
+            </td>
+            <td style="width: 50%; vertical-align: top; border-bottom: 1px solid #CCC">
+                <br><br>
+                {{feedback}}
+            </td>
+        </tr>';
+
+        $values = array(
+            '{{userimage}}',
+            '{{username}}',
+            '{{awardimage}}',
+            '{{awardname}}',
+            '{{feedback}}');
+
+        $userlink = fullname($user);
+
+        $awardimage = $awardname = '';
+        foreach ($user->awards as $award) {
+            if ($award->active == 'inactive') {
+                continue;
+            }
+            $awardimage = $award->awardimage;
+            $awardname = $award->awardname;
+        }
+
+        $replacements = array(
+            $OUTPUT->user_picture($user),
+            $userlink,
+            $awardimage,
+            $awardname,
+            $user->feedback->feedback,
+            );
+
+        $content .= str_replace($values, $replacements, $template);
+        return $content;
+    }
+
+    public function pdf_user($user) {
+        global $OUTPUT, $COURSE;
+        $this->assessment->set_user($user);
+        $user = $this->assessment->singleuser;
+        $content = '';
+        $template = '
+
+            <div style="text-align:left; display:inline-block; color:black;">
+                    {{userimage}}
+                <br>{{username}}
+                <br />{{pluginname}} {{strdate}} {{date}}
+            </div>
+            
+            <div style="text-align:center; display:inline-block; width:75%; color:black;">
+                <h2 style="color:red">{{assessmentname}}</h2>
+            </div>
+            <div style="text-align:center; display:inline-block; width:75%; color:black;">
+                {{awardimage}}
+                 <br>
+                {{awardname}}
+            </div>
+            <div style="text-align:center;>
+                <div style="text-align:left; width: 50%;>
+                <h3>{{strfeedback}}</h3><br>
+                {{feedback}}
+                </div>
+            </div>
+';
+
+        $values = array(
+            '{{userimage}}',
+            '{{username}}',
+            '{{pluginname}}',
+            '{{strdate}}',
+            '{{date}}',
+            '{{assessmentname}}',
+            '{{awardimage}}',
+            '{{awardname}}',
+            '{{strfeedback}}',
+            '{{feedback}}');
+
+        $awardimage = $awardname = '';
+        $date = '';
+        foreach ($user->awards as $award) {
+            if ($award->active == 'inactive') {
+                continue;
+            }
+            $awardimage = $award->awardimage;
+            $awardname = $award->awardname;
+            $date = userdate($award->timemodified, '%d %B %Y');
+        }
+
+        $userurl = new moodle_url('/user/view.php',
+            array('course' => $COURSE->id, 'id' => $user->id));
+        $userlink = fullname($user);
+
+        $printurl = new moodle_url('/mod/assessment/print.php', array('assessmentid' => $this->assessment->assessment->id, 'userid' => $user->id));
+        $button = new single_button($printurl, get_string('print', 'mod_assessment'));
+
+        $replacements = array(
+            $OUTPUT->user_picture($user, array('size' => '50px')),
+            $userlink,
+            get_string('pluginname', 'mod_assessment'),
+            get_string('date'),
+            $date,
+            $this->assessment->assessment->name,
+            $awardimage,
+            $awardname,
+            get_string('feedback', 'mod_assessment'),
+            $user->feedback->feedback
+            );
+
+        $content .= str_replace($values, $replacements, $template);
+        return $content;
+    }
+
+
+
 }

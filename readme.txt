@@ -1,4 +1,4 @@
-Mod assessment
+Mod Assessment
 
 This is the Assessment plugin for Moodle.
 
