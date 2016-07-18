@@ -109,10 +109,24 @@ class restore_assessment_activity_structure_step extends restore_activity_struct
     }
 
     protected function after_execute() {
-
+        global $DB;
         foreach ($this->awards as $key => $award) {
-            $this->add_related_files('mod_assessment', 'award', 'assessment', null, $key);
+            $this->add_related_files('mod_assessment', 'award', null, null, $award->id);
         }
+
+        $fs = get_file_storage();
+        $newcontextid = $this->task->get_contextid();
+
+        $restored_files = $DB->get_records('files', array('component' => 'mod_assessment', 'contextid' => $newcontextid));
+        foreach ($restored_files as $rf) {
+            if (isset($this->awards[$rf->itemid])) {
+                $award = $this->awards[$rf->itemid];
+                $rf->itemid = $award->id;
+                $rf->pathnamehash = $fs->get_pathname_hash($newcontextid, 'mod_assessment', 'award', $rf->itemid, '/', $rf->filename);
+                $DB->update_record('files', $rf);
+            }
+        }
+        
     }
 
 }
