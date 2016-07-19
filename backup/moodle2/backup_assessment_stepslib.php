@@ -77,7 +77,7 @@ class backup_assessment_activity_structure_step extends backup_activity_structur
         $currentawards = $DB->get_records('assessment_awards', array('assessment' => backup::VAR_PARENTID));
 
         // $context = get_context_instance(CONTEXT_MODULE, $cm->id);
-        $award->annotate_files('mod_assessment', 'award', 'awardnum', $this->get_setting_value(backup::VAR_CONTEXTID));
+        $award->annotate_files('mod_assessment', 'award', 'id', $this->get_setting_value(backup::VAR_CONTEXTID));
 
         $grade->annotate_ids('user', 'userid');
 

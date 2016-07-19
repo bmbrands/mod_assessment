@@ -43,6 +43,7 @@ $string['awardname'] = 'Award Name {$a}';
 $string['awardgrade'] = 'Award Grade {$a}';
 $string['awardimage'] = 'Award Image {$a}';
 $string['numawards'] = 'Number of Award options';
+$string['printlist'] = 'Print List';
 $string['print'] = 'Print';
 
 // Table string.

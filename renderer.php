@@ -154,6 +154,7 @@ class mod_assessment_renderer extends plugin_renderer_base {
                     {{addfeedback}}
                     {{loading}}
                     {{check}}
+                    {{printlink}}
                 </a>
             </div>
             <div class="clearfix"></div>
@@ -173,6 +174,7 @@ class mod_assessment_renderer extends plugin_renderer_base {
             '{{addfeedback}}',
             '{{loading}}',
             '{{check}}',
+            '{{printlink}}',
             '{{feedbackrow}}');
 
         $editimgalt = get_string('addfeedback', 'mod_assessment');
@@ -196,6 +198,12 @@ class mod_assessment_renderer extends plugin_renderer_base {
         $checkimgalt = get_string('checked', 'mod_assessment');
         $cicon = new pix_icon('t/check', $checkimgalt, '', array('title' => $checkimgalt, 'class' => 'checkicon hidden'));
         $checkicon = $OUTPUT->render($cicon);
+
+        $printimgalt = get_string('print', 'mod_assessment');
+        $pricon = new pix_icon('t/print', $printimgalt, '', array('title' => $printimgalt, 'class' => 'printicon'));
+        $printicon = $OUTPUT->render($pricon);
+        $printuserurl = new moodle_url('/mod/assessment/print.php', array('userid' => $user->id, 'assessmentid' => $this->assessment->assessment->id));
+        $printlink = html_writer::link($printuserurl, $printicon, array('class' => 'userprintlink'));
 
         $userurl = new moodle_url('/user/view.php',
             array('course' => $COURSE->id, 'id' => $user->id));
@@ -223,6 +231,7 @@ class mod_assessment_renderer extends plugin_renderer_base {
             $editicon,
             $loadericon,
             $checkicon,
+            $printlink,
             $feedbackrow
             );
 

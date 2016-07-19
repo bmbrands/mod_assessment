@@ -47,6 +47,9 @@
 .path-mod-assessment .userrow {
   border-bottom: 1px solid #eee;
 }
+.path-mod-assessment .userrow .userprintlink {
+  margin-left: 10px;
+}
 .path-mod-assessment .userrow .float-left {
   float: left;
 }

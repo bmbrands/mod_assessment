@@ -55,7 +55,7 @@ class assessment_pdf extends pdf {
      * Write header.
      */
     public function Header() {
-        $this->SetFont('times', 'N', 10);
+        $this->SetFont('helvetica', 'N', 10);
         $this->writeHTML($this->customheaderhtml, '', true, false, true, false, '');
     }
 
@@ -66,7 +66,7 @@ class assessment_pdf extends pdf {
         // Position at 15 mm from bottom.
         $this->SetY(-15);
         // Set font.
-        $this->SetFont('times', 'N', 8);
+        $this->SetFont('helvetica', 'N', 8);
         // Page number.
         $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
     }
