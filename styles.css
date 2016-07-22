@@ -44,6 +44,9 @@
   background-color: #eeeeee;
   border-color: #dddddd;
 }
+.path-mod-assessment .userviewlink {
+  margin-left: 10px;
+}
 .path-mod-assessment .userrow {
   border-bottom: 1px solid #eee;
 }

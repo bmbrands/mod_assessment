@@ -89,15 +89,9 @@ echo $OUTPUT->header();
 
 echo $renderer->user_view($canassess);
 
-if ($assessment->assessment->htmlfeedback) {
-    if ($edit) {
-        $feedbackform->display();
-    } else {
-        if ($canassess) {
-            echo $renderer->show_feedback($canassess);
-            echo $renderer->return_to_userlisting($page);
-        }
-    }
+if ($canassess) {
+    echo $renderer->return_to_userlisting($page);
 }
+
 
 echo $OUTPUT->footer();

@@ -61,18 +61,18 @@ if ($userid) {
 require_course_login($course, false, $cm);
 $context = context_module::instance($cm->id);
 
-//try {
+try {
     $assessment = new assessment($cm, $course, $group);
     $printer = new assessment_printer($assessment, $course, $context, $user);
     $printer->pdf();
-// } catch (Exception $e) {
-//     $PAGE->set_url('/mod/assessment/print.php', array('id' => $cm->id));
-//     $PAGE->set_title(get_string('error'));
-//     $PAGE->set_heading(get_string('error'));
+} catch (Exception $e) {
+    $PAGE->set_url('/mod/assessment/print.php', array('id' => $cm->id));
+    $PAGE->set_title(get_string('error'));
+    $PAGE->set_heading(get_string('error'));
 
-//     echo $OUTPUT->header();
-//     echo html_writer::tag('div', get_string('printerissue', 'mod_assessment'), array('class' => 'alert alert-error'));
-//     echo $OUTPUT->footer();
+    echo $OUTPUT->header();
+    echo html_writer::tag('div', get_string('printerissue', 'mod_assessment'), array('class' => 'alert alert-error'));
+    echo $OUTPUT->footer();
 
-//     exit;
-// }
+    exit;
+}

@@ -61,3 +61,5 @@ $string['search'] = 'Search';
 $string['onlynumericgrades'] = 'Please provide numeric grades only';
 $string['return'] = 'Return to userlisting';
 $string['ungraded'] = 'You have not been assigned an award yet';
+$string['userungraded'] = 'This user has not been assigned an award yet';
+

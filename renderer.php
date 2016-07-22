@@ -154,7 +154,7 @@ class mod_assessment_renderer extends plugin_renderer_base {
                     {{addfeedback}}
                     {{loading}}
                     {{check}}
-                    {{printlink}}
+                    {{viewlink}}
                 </a>
             </div>
             <div class="clearfix"></div>
@@ -174,7 +174,7 @@ class mod_assessment_renderer extends plugin_renderer_base {
             '{{addfeedback}}',
             '{{loading}}',
             '{{check}}',
-            '{{printlink}}',
+            '{{viewlink}}',
             '{{feedbackrow}}');
 
         $editimgalt = get_string('addfeedback', 'mod_assessment');
@@ -200,10 +200,10 @@ class mod_assessment_renderer extends plugin_renderer_base {
         $checkicon = $OUTPUT->render($cicon);
 
         $printimgalt = get_string('print', 'mod_assessment');
-        $pricon = new pix_icon('t/print', $printimgalt, '', array('title' => $printimgalt, 'class' => 'printicon'));
+        $pricon = new pix_icon('t/preview', $printimgalt, '', array('title' => $printimgalt, 'class' => 'printicon'));
         $printicon = $OUTPUT->render($pricon);
-        $printuserurl = new moodle_url('/mod/assessment/print.php', array('userid' => $user->id, 'assessmentid' => $this->assessment->assessment->id));
-        $printlink = html_writer::link($printuserurl, $printicon, array('class' => 'userprintlink'));
+        $printuserurl = new moodle_url('/mod/assessment/user.php', array('userid' => $user->id, 'assessmentid' => $this->assessment->assessment->id));
+        $viewlink = html_writer::link($printuserurl, $printicon, array('class' => 'userviewlink'));
 
         $userurl = new moodle_url('/user/view.php',
             array('course' => $COURSE->id, 'id' => $user->id));
@@ -231,7 +231,7 @@ class mod_assessment_renderer extends plugin_renderer_base {
             $editicon,
             $loadericon,
             $checkicon,
-            $printlink,
+            $viewlink,
             $feedbackrow
             );
 
@@ -427,15 +427,15 @@ class mod_assessment_renderer extends plugin_renderer_base {
     public function user_view($canassess) {
         $content = '';
         if ($this->assessment->singleuser) {
-            if (!$canassess && $this->assessment->singleuser->grade == '') {
-                return html_writer::tag('div', get_string('ungraded', 'mod_assessment'), array('class' => 'alert alert-warning'));
+            if ($this->assessment->singleuser->grade == '') {
+                if ($canassess) {
+                    $message = get_string('userungraded', 'mod_assessment');
+                } else {
+                    $message = get_string('ungraded', 'mod_assessment');
+                }
+                return html_writer::tag('div', $message, array('class' => 'alert alert-warning'));
             }
-            if ($canassess) {
-                $content = $this->user_heading($this->assessment->singleuser->awards);
-                $content .= $this->user_row($this->assessment->singleuser, $canassess);
-            } else {
-                $content .= $this->single_user_row($this->assessment->singleuser, $canassess);
-            }
+            $content .= $this->single_user_row($this->assessment->singleuser, $canassess);
         }
         return $content;
     }

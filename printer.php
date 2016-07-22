@@ -96,7 +96,7 @@ class assessment_printer {
         $this->pdf->set_customheaderhtml($headerhtml);
         $this->pdf->SetMargins(5, 15, 10);
         $this->pdf->AddPage();
-        $this->pdf->SetFont('helvetica', '', 12);
+        $this->pdf->SetFont('helvetica', '', 10);
         $this->pdf->SetTextColor(25, 25, 75);
 
         $this->pdf->writeHTML($contenthtml, '', true, false, true, false, '');
