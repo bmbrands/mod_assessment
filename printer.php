@@ -34,6 +34,7 @@ class assessment_printer {
     private $pdf;
     private $print;
     private $error;
+    private $allusers;
 
     /**
      * Constructor.
@@ -42,17 +43,17 @@ class assessment_printer {
      *
      * @param object $assessment Assessment object.
      */
-    public function __construct($assessment, $course, $context, $user = null) {
+    public function __construct($assessment, $course, $context, $user = null, $allusers) {
         $this->assessment = $assessment;
         $this->course = $course;
         $this->context = $context;
         $this->user = $user;
+        $this->allusers = $allusers;
         
         // Check if this user is allowed to print.
         if (!$this->can_print()) {
             throw new moodle_exception('error:noaccess', 'mod_assessement');
         }
-
         $this->pdf = new assessment_pdf();
     }
 
@@ -66,9 +67,12 @@ class assessment_printer {
         if (has_capability('mod/assessment:assess', $this->context)) {
             return true;
         } else if (has_capability('mod/assessment:receivegrade', $this->context)) {
+            $this->allusers = false;
             if ($this->user && $USER->id == $this->user->id) {
                 return true;
             }
+        } else {
+            $this->allusers = false;
         }
         return false;
     }
@@ -86,20 +90,29 @@ class assessment_printer {
         $renderer->set_assessment($this->assessment);
 
         $headerhtml = $this->course->fullname . ' ' . get_string('pluginname', 'mod_assessment');
-
-        if (!$this->user) {
-            $contenthtml = $renderer->pdf_listing();
-        } else {
-            $contenthtml = $renderer->pdf_user($this->user);
-        }
-
         $this->pdf->set_customheaderhtml($headerhtml);
         $this->pdf->SetMargins(5, 15, 10);
-        $this->pdf->AddPage();
         $this->pdf->SetFont('helvetica', '', 10);
         $this->pdf->SetTextColor(25, 25, 75);
 
-        $this->pdf->writeHTML($contenthtml, '', true, false, true, false, '');
+        if ($this->allusers) {
+            $students = $this->assessment->student_list('', false);
+            if ($students) {
+                foreach ($students as $student) {
+                    $contenthtml = $renderer->pdf_user($student);
+                    $this->pdf->AddPage();
+                    $this->pdf->writeHTML($contenthtml, '', true, false, true, false, '');
+                }
+            }
+        } else {
+            if (!$this->user) {
+                $contenthtml = $renderer->pdf_listing();
+            } else {
+                $contenthtml = $renderer->pdf_user($this->user);
+            }
+            $this->pdf->AddPage();
+            $this->pdf->writeHTML($contenthtml, '', true, false, true, false, '');
+        }
         
         $filenamepieces = array(
             $this->assessment->assessment->id,

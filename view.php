@@ -90,6 +90,9 @@ if ($assessment->assessment->intro) {
 
 $printurl = new moodle_url('/mod/assessment/print.php', array('id' => $id));
 $button = new single_button($printurl, get_string('printlist', 'mod_assessment'));
+echo html_writer::tag('div', $OUTPUT->render($button), array('class' => 'pull-right'));
+$printurl = new moodle_url('/mod/assessment/print.php', array('id' => $id, 'allusers' => 1));
+$button = new single_button($printurl, get_string('printall', 'mod_assessment'));
 
 echo html_writer::tag('div', $OUTPUT->render($button), array('class' => 'pull-right'));
 echo $renderer->user_search($search);

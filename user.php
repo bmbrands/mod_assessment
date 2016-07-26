@@ -87,8 +87,11 @@ $PAGE->requires->jquery_plugin('assessment', 'mod_assessment');
 
 echo $OUTPUT->header();
 
-echo $renderer->user_view($canassess);
+echo $renderer->user_view($canassess, $edit);
 
+if ($assessment->assessment->htmlfeedback && $edit) {
+    $feedbackform->display();
+}
 if ($canassess) {
     echo $renderer->return_to_userlisting($page);
 }

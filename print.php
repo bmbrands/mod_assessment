@@ -32,6 +32,7 @@ $cmid = optional_param('cmid', '', PARAM_INT);
 $group = optional_param('group', 0, PARAM_INT);
 $search = optional_param('query', '', PARAM_RAW);
 $userid = optional_param('userid', 0, PARAM_INT);
+$allusers = optional_param('allusers', 0, PARAM_INT);
 
 if ($cmid) {
     $id = $cmid;
@@ -63,7 +64,7 @@ $context = context_module::instance($cm->id);
 
 try {
     $assessment = new assessment($cm, $course, $group);
-    $printer = new assessment_printer($assessment, $course, $context, $user);
+    $printer = new assessment_printer($assessment, $course, $context, $user, $allusers);
     $printer->pdf();
 } catch (Exception $e) {
     $PAGE->set_url('/mod/assessment/print.php', array('id' => $cm->id));

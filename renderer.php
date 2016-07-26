@@ -199,11 +199,11 @@ class mod_assessment_renderer extends plugin_renderer_base {
         $cicon = new pix_icon('t/check', $checkimgalt, '', array('title' => $checkimgalt, 'class' => 'checkicon hidden'));
         $checkicon = $OUTPUT->render($cicon);
 
-        $printimgalt = get_string('print', 'mod_assessment');
-        $pricon = new pix_icon('t/preview', $printimgalt, '', array('title' => $printimgalt, 'class' => 'printicon'));
-        $printicon = $OUTPUT->render($pricon);
-        $printuserurl = new moodle_url('/mod/assessment/user.php', array('userid' => $user->id, 'assessmentid' => $this->assessment->assessment->id));
-        $viewlink = html_writer::link($printuserurl, $printicon, array('class' => 'userviewlink'));
+        $viewimgalt = get_string('view', 'mod_assessment');
+        $pricon = new pix_icon('t/preview', $viewimgalt, '', array('title' => $viewimgalt, 'class' => 'viewicon'));
+        $viewicon = $OUTPUT->render($pricon);
+        $viewuserurl = new moodle_url('/mod/assessment/user.php', array('userid' => $user->id, 'assessmentid' => $this->assessment->assessment->id));
+        $viewlink = html_writer::link($viewuserurl, $viewicon, array('class' => 'userviewlink'));
 
         $userurl = new moodle_url('/user/view.php',
             array('course' => $COURSE->id, 'id' => $user->id));
@@ -424,17 +424,25 @@ class mod_assessment_renderer extends plugin_renderer_base {
         return $content;
     }
 
-    public function user_view($canassess) {
+    public function user_view($canassess, $edit = false) {
         $content = '';
         if ($this->assessment->singleuser) {
-            if ($this->assessment->singleuser->grade == '') {
-                if ($canassess) {
-                    $message = get_string('userungraded', 'mod_assessment');
+            
+            if ($canassess) {
+                if ($this->assessment->assessment->htmlfeedback && $edit) {
+                    $content .= $this->user_heading($this->assessment->singleuser->awards);
+                    $content .= $this->user_row($this->assessment->singleuser, $canassess);
                 } else {
-                    $message = get_string('ungraded', 'mod_assessment');
+                    $content .= $this->single_user_row($this->assessment->singleuser, $canassess);
                 }
-                return html_writer::tag('div', $message, array('class' => 'alert alert-warning'));
-            }
+                return $content;
+            } else {
+                if ($this->assessment->singleuser->grade == '') {
+                    $message = get_string('ungraded', 'mod_assessment');
+                    return html_writer::tag('div', $message, array('class' => 'alert alert-warning'));
+                }
+            }  
+            
             $content .= $this->single_user_row($this->assessment->singleuser, $canassess);
         }
         return $content;

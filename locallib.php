@@ -94,7 +94,7 @@ class assessment {
         $this->messages = array();
     }
 
-    public function student_list($search) {
+    public function student_list($search, $pagination = true) {
         if ($this->groupid == 0) {
             $users = get_users_by_capability($this->context, 'mod/assessment:receivegrade');
             foreach ($users as $user) {
@@ -123,8 +123,12 @@ class assessment {
         }
         if (!empty($studentlist)) {
             ksort($studentlist);
-            $students = $this->pagination($studentlist);
-            return $students;
+            if ($pagination) {
+                $students = $this->pagination($studentlist);
+                return $students;
+            } else {
+                return $studentlist;
+            }
         }
     }
 
@@ -296,8 +300,10 @@ class assessment {
 
         if ($entry = $DB->get_record('assessment_feedback', array('assessment' => $this->assessment->id,
             'userid' => $this->singleuser->id))) {
-            $entry = file_prepare_standard_editor($entry, 'feedback', $definitionoptions, $this->context,
-            'mod_assessment', 'feedback', $entry->id);
+            if ($entry->feedbackformat == 1) {
+                $entry = file_prepare_standard_editor($entry, 'feedback', $definitionoptions, $this->context,
+                'mod_assessment', 'feedback', $entry->id);
+            }
         } else {
             $entry = new stdClass();
         }

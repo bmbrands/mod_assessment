@@ -44,7 +44,9 @@ $string['awardgrade'] = 'Award Grade {$a}';
 $string['awardimage'] = 'Award Image {$a}';
 $string['numawards'] = 'Number of Award options';
 $string['printlist'] = 'Print List';
+$string['printall'] = 'Print All Users';
 $string['print'] = 'Print';
+$string['view'] = 'View';
 
 // Table string.
 $string['username'] = 'Username';
