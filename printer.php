@@ -99,6 +99,9 @@ class assessment_printer {
             $students = $this->assessment->student_list('', false);
             if ($students) {
                 foreach ($students as $student) {
+                    if (empty($student->grade)) {
+                        continue;
+                    }
                     $contenthtml = $renderer->pdf_user($student);
                     $this->pdf->AddPage();
                     $this->pdf->writeHTML($contenthtml, '', true, false, true, false, '');
