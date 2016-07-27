@@ -43,8 +43,8 @@ $string['awardname'] = 'Award Name {$a}';
 $string['awardgrade'] = 'Award Grade {$a}';
 $string['awardimage'] = 'Award Image {$a}';
 $string['numawards'] = 'Number of Award options';
-$string['printlist'] = 'Print List';
-$string['printall'] = 'Print All Graded Users';
+$string['printlist'] = 'Print as class list';
+$string['printall'] = 'Print as individual pages';
 $string['print'] = 'Print';
 $string['view'] = 'View';
 
@@ -61,7 +61,7 @@ $string['previous'] = 'Previous Page';
 $string['next'] = 'Next Page';
 $string['search'] = 'Search';
 $string['onlynumericgrades'] = 'Please provide numeric grades only';
-$string['return'] = 'Return to userlisting';
+$string['return'] = 'Return to class list';
 $string['ungraded'] = 'You have not been assigned an award yet';
 $string['userungraded'] = 'This user has not been assigned an award yet';
 
