@@ -23,7 +23,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2016071900;
+$plugin->version = 2016072700;
 $plugin->requires = 2014051200;
 $plugin->component = 'mod_assessment';
 $plugin->cron = 0;
